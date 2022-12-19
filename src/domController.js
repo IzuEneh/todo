@@ -1,8 +1,8 @@
 import "./style.css";
-import plus from "./plus-icon.png";
-import trash from "./trash-icon.png";
-import addProject from "./project-icon.png";
-import createTodo from "./components/todo";
+import plus from "./assets/plus-icon.png";
+import trash from "./assets/trash-icon.png";
+import addProject from "./assets/project-icon.png";
+import todoElement from "./components/todo";
 
 const createTitle = () => {
 	const title = document.createElement("h1");
@@ -27,7 +27,7 @@ const createAddButton = () => {
 	return addTodo;
 };
 
-const createSideBar = () => {
+const sideBarFactory = () => {
 	const sideBar = document.createElement("div");
 	sideBar.classList.add("side-bar");
 
@@ -47,23 +47,14 @@ const createSideBar = () => {
 	projectSection.classList.add("projects-Section");
 	const projects = document.createElement("ul");
 	["Inbox", "This week", "This month"].forEach((proj) => {
-		const li = document.createElement("li");
-
-		const text = document.createElement("p");
-		text.textContent = proj;
-
-		const img = document.createElement("img");
-		img.src = trash;
-		li.appendChild(text);
-		li.appendChild(img);
-		projects.appendChild(li);
+		createProject(proj);
 	});
 
 	const addButton = document.createElement("div");
 	addButton.classList.add("add-project");
-	const addProjectButton = document.createElement("img");
-	addProjectButton.src = addProject;
-	addButton.appendChild(addProjectButton);
+	const addProjectImg = document.createElement("img");
+	addProjectImg.src = addProject;
+	addButton.appendChild(addProjectImg);
 
 	const addText = document.createElement("p");
 	addText.textContent = "Add Project";
@@ -74,14 +65,45 @@ const createSideBar = () => {
 	sideBarWrapper.appendChild(projectSection);
 
 	sideBar.appendChild(sideBarWrapper);
-	return sideBar;
+
+	function createProject(name) {
+		const li = document.createElement("li");
+
+		const text = document.createElement("p");
+		text.textContent = name;
+
+		const img = document.createElement("img");
+		img.src = trash;
+		li.appendChild(text);
+		li.appendChild(img);
+		projects.appendChild(li);
+	}
+	return { sideBar, addButton };
 };
 
-export let addTodo = createAddButton();
+const createTodoList = () => {
+	const todoList = document.createElement("ul");
+	todoList.classList.add("todo-list");
+	return todoList;
+};
+
+export let addTodoButton = createAddButton();
 
 export let title = createTitle();
 
-export let sideBar = createSideBar();
+export let { sideBar } = sideBarFactory();
+
+let todoList = createTodoList();
+
+export const addTodo = (todo) => {
+	const element = todoElement(
+		todo.title,
+		todo.completed,
+		todo.dueDate,
+		todo.description
+	);
+	todoList.appendChild(element);
+};
 
 export default function drawDisplay() {
 	const body = document.querySelector("body");
@@ -91,18 +113,10 @@ export default function drawDisplay() {
 	const main = document.createElement("div");
 	main.classList.add("main");
 
-	const todoList = document.createElement("ul");
-	todoList.classList.add("todo-list");
-	["test", "test2", "test3", "test4", "test5", "test6", "test7"].forEach(
-		(title) => {
-			todoList.appendChild(createTodo(title, false, new Date()));
-		}
-	);
-
 	const todoStuff = document.createElement("div");
 	todoStuff.classList.add("todo-section");
 	todoStuff.appendChild(todoList);
-	todoStuff.appendChild(addTodo);
+	todoStuff.appendChild(addTodoButton);
 
 	const titleSection = document.createElement("div");
 	titleSection.classList.add("title-section");
