@@ -16,9 +16,7 @@ export default function todoElement(title, checked, date, description) {
 	const summaryTitle = document.createElement("div");
 	summaryTitle.classList.add("summary-title");
 
-	const todoDescription = document.createElement("p");
-	todoDescription.classList.add("description");
-	todoDescription.textContent = description;
+	const todoDescription = createDescriptionSection(description);
 
 	summaryTitle.appendChild(todoTitle);
 	summaryTitle.appendChild(todoDate);
@@ -27,10 +25,27 @@ export default function todoElement(title, checked, date, description) {
 	details.appendChild(todoDescription);
 	li.appendChild(details);
 
-	li.addEventListener("click", expand);
 	return li;
 }
 
-function expand(e) {
-	console.log("clicked");
+function createDescriptionSection(description) {
+	const section = document.createElement("div");
+	section.classList.add("description-section");
+
+	const descSection = document.createElement("p");
+	descSection.classList.add("description");
+	descSection.textContent = description;
+	section.appendChild(descSection);
+
+	const buttons = document.createElement("div");
+	buttons.classList.add("todo-buttons");
+	["Complete", "Edit", "Delete"].forEach((element) => {
+		const el = document.createElement("button");
+		el.textContent = element;
+
+		buttons.appendChild(el);
+	});
+	section.appendChild(buttons);
+
+	return section;
 }

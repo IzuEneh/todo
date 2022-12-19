@@ -45,7 +45,6 @@ details[open] summary::before {
     width: 95%;
 }
 
-
 .todo-checkbox {
     height: 50px;
     width: 50px;
@@ -62,8 +61,15 @@ details[open] summary::before {
 
 .todo-title {
     margin: 0px auto 0px 20px;
-    /* flex: 1; */
-    /* margin-left: 0px; */
 }
 
-.todo-date {}
+.description-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.todo-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px
+}
