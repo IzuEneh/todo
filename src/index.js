@@ -5,6 +5,7 @@ import drawDisplay, {
 	addTodo,
 } from "./domController";
 import { todoObject } from "./todoFactory";
+import { modal, openModal } from "./components/modal/modal";
 
 const todos = [
 	todoObject("test", "test of whats to come", new Date(), "low", false),
@@ -16,3 +17,9 @@ drawDisplay();
 todos.forEach((todo) => {
 	addTodo(todo);
 });
+
+addButton.addEventListener("click", createTodo);
+
+function createTodo(e) {
+	openModal();
+}

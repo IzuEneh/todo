@@ -3,6 +3,7 @@ import plus from "./assets/plus-icon.png";
 import trash from "./assets/trash-icon.png";
 import addProject from "./assets/project-icon.png";
 import todoElement from "./components/todo";
+import { modal } from "./components/modal/modal";
 
 const createTitle = () => {
 	const title = document.createElement("h1");
@@ -129,6 +130,7 @@ export default function drawDisplay() {
 	content.appendChild(sideBar);
 	content.appendChild(main);
 	body.appendChild(content);
+	body.appendChild(modal);
 }
 
 /**

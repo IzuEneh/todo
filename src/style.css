@@ -181,6 +181,10 @@ body {
     transform: translateY(-0.25em);
 }
 
+.add-todo:active {
+    transform: scale(0.95);
+}
+
 .add-todo-text {
     color: var(--main-color);
     font-size: var(--sub-title-size);
