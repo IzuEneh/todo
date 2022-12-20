@@ -84,6 +84,7 @@ select {
     color: var(--text-light);
     font-weight: 700;
     padding: 0px 5px;
+    border: none;
 }
 
 .modal-button:hover {

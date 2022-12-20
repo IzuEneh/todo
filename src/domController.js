@@ -96,15 +96,23 @@ export let { sideBar } = sideBarFactory();
 
 let todoList = createTodoList();
 
-export const addTodo = (todo) => {
-	const element = todoElement(
-		todo.title,
-		todo.completed,
-		todo.dueDate,
-		todo.description
-	);
-	todoList.appendChild(element);
-};
+function drawTodos(todos) {
+	let child = todoList.lastElementChild;
+	while (child) {
+		todoList.removeChild(child);
+		child = todoList.lastElementChild;
+	}
+
+	todos.forEach((todo) => {
+		const element = todoElement(
+			todo.title,
+			todo.completed,
+			todo.dueDate,
+			todo.description
+		);
+		todoList.appendChild(element);
+	});
+}
 
 export default function drawDisplay() {
 	const body = document.querySelector("body");
@@ -132,6 +140,8 @@ export default function drawDisplay() {
 	body.appendChild(content);
 	body.appendChild(modal);
 }
+
+export { drawTodos };
 
 /**
  * Create factories for todolist and sidebar

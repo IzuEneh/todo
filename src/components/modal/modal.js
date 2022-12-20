@@ -1,7 +1,12 @@
 import "./modal.css";
-
-let submitButton = createButton("Submit", "modal-submit");
-let cancelButton = createButton("Cancel", "modal-cancel");
+const priorities = {
+	low: "Low",
+	med: "Med",
+	hi: "High",
+};
+let submitButton = createButton("Submit", "modal-submit", "submit");
+let cancelButton = createButton("Cancel", "modal-cancel", "button");
+let form = createForm();
 let modal = createModal();
 const closeModal = () => {
 	modal.style.display = "none";
@@ -9,7 +14,6 @@ const closeModal = () => {
 
 const openModal = () => {
 	modal.style.display = "block";
-	console.log(modal);
 };
 
 function createModal() {
@@ -25,10 +29,7 @@ function createModal() {
 function createContent() {
 	const container = document.createElement("div");
 	container.classList.add("modal-content");
-
-	const form = createForm();
 	container.appendChild(form);
-	container.appendChild(createButtons());
 	return container;
 }
 
@@ -37,32 +38,36 @@ function createForm() {
 	form.classList.add("modal-form");
 	const titleInput = document.createElement("input");
 	titleInput.placeholder = "Default Title";
-	const titleFormElement = createFormElement("Title: ", titleInput);
+	const titleFormElement = createFormElement("Title: ", titleInput, true);
 
 	const priorityDrop = document.createElement("select");
-	["Low", "Med", "High"].forEach((pri) => {
+	Object.values(priorities).forEach((pri) => {
 		const option = document.createElement("option");
 		option.value = pri.toLowerCase();
 		option.textContent = pri;
 		priorityDrop.appendChild(option);
 	});
-	const priorityFormElement = createFormElement("Priority: ", priorityDrop);
+	const priorityFormElement = createFormElement(
+		"Priority: ",
+		priorityDrop,
+		true
+	);
 
-	const today = new Date();
 	const dueDate = document.createElement("input");
 	dueDate.type = "date";
 	dueDate.min = todaysDate();
 	dueDate.value = todaysDate();
-	const dateFormElement = createFormElement("Due Date: ", dueDate);
+	const dateFormElement = createFormElement("Due Date: ", dueDate, false);
 
 	const desc = document.createElement("textarea");
 	desc.placeholder = "Description";
-	const descFormElement = createFormElement("Description: ", desc);
+	const descFormElement = createFormElement("Description: ", desc, false);
 
 	form.appendChild(titleFormElement);
 	form.appendChild(priorityFormElement);
 	form.appendChild(dateFormElement);
 	form.appendChild(descFormElement);
+	form.appendChild(createButtonSection());
 	return form;
 }
 
@@ -71,20 +76,21 @@ function todaysDate() {
 	return `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
 }
 
-function createFormElement(title, element) {
+function createFormElement(title, element, isRequired) {
 	const formElement = document.createElement("div");
 	formElement.classList.add("form-element");
 	const label = document.createElement("label");
 	label.textContent = title;
 
 	element.classList.add("form-input");
+	element.required = `${isRequired}`;
 
 	formElement.appendChild(label);
 	formElement.appendChild(element);
 	return formElement;
 }
 
-function createButtons() {
+function createButtonSection() {
 	const container = document.createElement("div");
 	container.classList.add("modal-buttons-section");
 
@@ -93,12 +99,27 @@ function createButtons() {
 	return container;
 }
 
-function createButton(text, className) {
-	const button = document.createElement("div");
+function createButton(text, className, type) {
+	const button = document.createElement("button");
+	button.type = type;
 	button.classList.add("modal-button");
 	button.classList.add(className);
 	button.textContent = text;
 	return button;
+}
+
+function getFormElements() {
+	return {
+		title: form[0],
+		priority: form[1],
+		dueDate: form[2],
+		description: form[3],
+	};
+}
+
+function clearFormElements() {
+	form.reset();
+	form[2].value = todaysDate();
 }
 
 window.onclick = function (event) {
@@ -107,4 +128,20 @@ window.onclick = function (event) {
 	}
 };
 
-export { modal, openModal, closeModal, submitButton, cancelButton };
+submitButton.addEventListener("click", (e) => {
+	const { title, priority, dueDate, description } = getFormElements();
+	if (title.value == "") {
+		return;
+	}
+	e.preventDefault();
+});
+
+export {
+	modal,
+	openModal,
+	closeModal,
+	submitButton,
+	cancelButton,
+	getFormElements,
+	clearFormElements,
+};

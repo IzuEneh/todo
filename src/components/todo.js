@@ -10,7 +10,7 @@ export default function todoElement(title, checked, date, description) {
 	todoTitle.classList.add("todo-title");
 
 	const todoDate = document.createElement("p");
-	todoDate.textContent = date.toDateString();
+	todoDate.textContent = date;
 	todoDate.classList.add("todo-date");
 
 	const summaryTitle = document.createElement("div");
