@@ -20,6 +20,7 @@ const todos = [
 ];
 
 drawDisplay();
+
 todoList.drawTodos(todos);
 
 todoList.setOnEditTodo(handleEditTodo);
