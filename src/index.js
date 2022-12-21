@@ -1,12 +1,4 @@
-import drawDisplay, {
-	addTodoButton as addButton,
-	title,
-	sideBar,
-	drawTodos,
-	setOnEditTodo,
-	setOnCompleteTodo,
-	setOnDeleteTodo,
-} from "./domController";
+import drawDisplay, { title, sideBar, todoList } from "./domController";
 import Todo from "./components/todo/Todo";
 import {
 	openModal,
@@ -38,28 +30,29 @@ const todos = [
 ];
 
 drawDisplay();
-setOnEditTodo((e) => {
+todoList.setOnEditTodo((e) => {
 	const index = e.target.dataset.index;
 	openEditModal(todos[index], index);
 });
 
-setOnCompleteTodo((e) => {
+todoList.setOnCompleteTodo((e) => {
 	const index = e.target.dataset.index;
 	let completedTodo = todos[index];
 	completedTodo.completed = !completedTodo.completed;
-	todos.splice(index, 1, completedTodo);
-	drawTodos(todos);
+	todos.splice(index, 1, newTodo);
+	todoList.drawTodos(todos);
 });
 
-setOnDeleteTodo((e) => {
+todoList.setOnDeleteTodo((e) => {
 	const index = e.target.dataset.index;
 	todos.splice(index, 1);
-	drawTodos(todos);
+	todoList.drawTodos(todos);
 });
-drawTodos(todos);
-function addTodoObject(e) {
+
+todoList.setOnAddTodo((e) => {
 	openModal();
-}
+});
+todoList.drawTodos(todos);
 
 function onSubmitTodo(e) {
 	const { isEdit, editIndex } = isEditMode();
@@ -68,7 +61,7 @@ function onSubmitTodo(e) {
 		return;
 	}
 
-	const todo = todoObject(
+	const todo = Todo(
 		title.value,
 		description.value,
 		dueDate.value,
@@ -77,7 +70,7 @@ function onSubmitTodo(e) {
 	);
 
 	isEdit ? todos.splice(editIndex, 1, todo) : todos.push(todo);
-	drawTodos(todos);
+	todoList.drawTodos(todos);
 	clearFormElements();
 	closeModal();
 }
@@ -87,6 +80,5 @@ function cancelTodo(e) {
 	closeModal();
 }
 
-addButton.addEventListener("click", addTodoObject);
 cancelButton.addEventListener("click", cancelTodo);
 submitButton.addEventListener("click", onSubmitTodo);

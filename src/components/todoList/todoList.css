@@ -1,0 +1,37 @@
+.todo-section {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+    padding-bottom: 30px;
+}
+
+.add-todo {
+    width: 25vw;
+    height: 95px;
+    background-color: var(--text-light);
+    border: 5px solid var(--main-color);
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    padding: 0px 20px;
+    box-sizing: border-box;
+    transition: all .1s ease;
+}
+
+.add-todo:hover,
+.add-todo:focus {
+    box-shadow: 0 0.5em 0.5em -0.4em var(--hover-color);
+    transform: translateY(-0.25em);
+}
+
+.add-todo:active {
+    transform: scale(0.95);
+}
+
+.add-todo-text {
+    color: var(--main-color);
+    font-size: var(--sub-title-size);
+    margin: 0 auto;
+    font-weight: 600;
+}

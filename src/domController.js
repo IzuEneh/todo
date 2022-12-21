@@ -2,30 +2,14 @@ import "./style.css";
 import plus from "./assets/plus-icon.png";
 import trash from "./assets/trash-icon.png";
 import addProject from "./assets/project-icon.png";
-// import todoElement from "./components/todo";
 import { modal } from "./components/modal/modal";
+import TodoList from "./components/todoList/TodoList";
 
 const createTitle = () => {
 	const title = document.createElement("h1");
 	title.classList.add("title");
 	title.textContent = "Inbox";
 	return title;
-};
-
-const createAddButton = () => {
-	const addTodo = document.createElement("div");
-	addTodo.classList.add("add-todo");
-
-	const icon = document.createElement("img");
-	icon.src = plus;
-	addTodo.appendChild(icon);
-
-	const text = document.createElement("p");
-	text.classList.add("add-todo-text");
-	text.textContent = "Add Todo";
-	addTodo.appendChild(text);
-
-	return addTodo;
 };
 
 const sideBarFactory = () => {
@@ -82,45 +66,11 @@ const sideBarFactory = () => {
 	return { sideBar, addButton };
 };
 
-const createTodoList = () => {
-	const todoList = document.createElement("ul");
-	todoList.classList.add("todo-list");
-	return todoList;
-};
-
-export let addTodoButton = createAddButton();
-
 export let title = createTitle();
 
 export let { sideBar } = sideBarFactory();
 
-let todoList = createTodoList();
-
-function drawTodos(todos) {
-	let child = todoList.lastElementChild;
-	while (child) {
-		todoList.removeChild(child);
-		child = todoList.lastElementChild;
-	}
-
-	todos.forEach((todo, index) => {
-		const element = todo.createElement();
-		element.dataset.index = index;
-		todoList.appendChild(element);
-	});
-}
-
-function setOnEditTodo(editMethod) {
-	todoList.addEventListener("editTodo", editMethod);
-}
-
-function setOnCompleteTodo(completeMethod) {
-	todoList.addEventListener("completeTodo", completeMethod);
-}
-
-function setOnDeleteTodo(deleteMethod) {
-	todoList.addEventListener("deleteTodo", deleteMethod);
-}
+const todoList = TodoList();
 
 export default function drawDisplay() {
 	const body = document.querySelector("body");
@@ -130,18 +80,13 @@ export default function drawDisplay() {
 	const main = document.createElement("div");
 	main.classList.add("main");
 
-	const todoStuff = document.createElement("div");
-	todoStuff.classList.add("todo-section");
-	todoStuff.appendChild(todoList);
-	todoStuff.appendChild(addTodoButton);
-
 	const titleSection = document.createElement("div");
 	titleSection.classList.add("title-section");
 	titleSection.classList.add("top-section");
 	titleSection.appendChild(title);
 
 	main.appendChild(titleSection);
-	main.appendChild(todoStuff);
+	main.appendChild(todoList.todoSection);
 
 	content.appendChild(sideBar);
 	content.appendChild(main);
@@ -149,7 +94,7 @@ export default function drawDisplay() {
 	body.appendChild(modal);
 }
 
-export { drawTodos, setOnEditTodo, setOnCompleteTodo, setOnDeleteTodo };
+export { todoList };
 
 /**
  * Create factories for todolist and sidebar
