@@ -20,34 +20,42 @@ const todos = [
 ];
 
 drawDisplay();
-todoList.setOnEditTodo((e) => {
-	const index = e.target.dataset.index;
-	modal.openEditMode(todos[index], index);
-});
+todoList.drawTodos(todos);
 
-todoList.setOnCompleteTodo((e) => {
-	const index = e.target.dataset.index;
-	let completedTodo = todos[index];
-	completedTodo.completed = !completedTodo.completed;
-	todos.splice(index, 1, newTodo);
-	todoList.drawTodos(todos);
-});
+todoList.setOnEditTodo(handleEditTodo);
 
-todoList.setOnDeleteTodo((e) => {
-	const index = e.target.dataset.index;
-	todos.splice(index, 1);
-	todoList.drawTodos(todos);
-});
+todoList.setOnCompleteTodo(handleCompleteTodo);
 
-todoList.setOnAddTodo((e) => {
-	modal.open();
-});
+todoList.setOnDeleteTodo(handleDeleteTodo);
+
+todoList.setOnAddTodo(handleOpenTodo);
 
 modal.onSubmit(handleSubmitTodo);
 
 modal.onCancel(handleCancelTodo);
 
-todoList.drawTodos(todos);
+function handleEditTodo(e) {
+	const index = e.target.dataset.index;
+	modal.openEditMode(todos[index], index);
+}
+
+function handleCompleteTodo(e) {
+	const index = e.target.dataset.index;
+	let completedTodo = todos[index];
+	completedTodo.completed = !completedTodo.completed;
+	todos.splice(index, 1, completedTodo);
+	todoList.drawTodos(todos);
+}
+
+function handleDeleteTodo(e) {
+	const index = e.target.dataset.index;
+	todos.splice(index, 1);
+	todoList.drawTodos(todos);
+}
+
+function handleOpenTodo(e) {
+	modal.open();
+}
 
 function handleSubmitTodo(e) {
 	const { isEdit, editIndex } = modal.isEditMode();
