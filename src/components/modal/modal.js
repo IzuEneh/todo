@@ -1,40 +1,24 @@
 import "./modal.css";
+
 const priorities = {
 	low: "Low",
 	med: "Med",
 	hi: "High",
 };
-let submitButton = createButton("Submit", "modal-submit", "submit");
-let cancelButton = createButton("Cancel", "modal-cancel", "button");
-let form = createForm();
-let modal = createModal();
-const closeModal = () => {
-	modal.style.display = "none";
-};
 
-const openModal = () => {
-	console.log(form);
-	modal.style.display = "block";
-};
-
-function createModal() {
+function createModal(form) {
 	const container = document.createElement("div");
 	container.classList.add("modal-container");
 
-	const content = createContent();
+	const content = document.createElement("div");
+	content.classList.add("modal-content");
+	content.appendChild(form);
 	container.appendChild(content);
 
 	return container;
 }
 
-function createContent() {
-	const container = document.createElement("div");
-	container.classList.add("modal-content");
-	container.appendChild(form);
-	return container;
-}
-
-function createForm() {
+function createForm(submitButton, cancelButton) {
 	const form = document.createElement("form");
 	form.classList.add("modal-form");
 	const titleInput = document.createElement("input");
@@ -64,11 +48,13 @@ function createForm() {
 	desc.placeholder = "Description";
 	const descFormElement = createFormElement("Description: ", desc, false);
 
+	const buttonSection = createButtonSection(submitButton, cancelButton);
+
 	form.appendChild(titleFormElement);
 	form.appendChild(priorityFormElement);
 	form.appendChild(dateFormElement);
 	form.appendChild(descFormElement);
-	form.appendChild(createButtonSection());
+	form.appendChild(buttonSection);
 	return form;
 }
 
@@ -91,7 +77,7 @@ function createFormElement(title, element, isRequired) {
 	return formElement;
 }
 
-function createButtonSection() {
+function createButtonSection(submitButton, cancelButton) {
 	const container = document.createElement("div");
 	container.classList.add("modal-buttons-section");
 
@@ -109,55 +95,75 @@ function createButton(text, className, type) {
 	return button;
 }
 
-function getFormElements() {
-	return {
-		title: form[0],
-		priority: form[1],
-		dueDate: form[2],
-		description: form[3],
+export default function Modal() {
+	const submitButton = createButton("Submit", "modal-submit", "submit");
+	const cancelButton = createButton("Cancel", "modal-cancel", "button");
+	const form = createForm(submitButton, cancelButton);
+	const modal = createModal(form);
+
+	window.onclick = function (event) {
+		if (event.target == modal) {
+			modal.style.display = "none";
+		}
 	};
-}
 
-function clearFormElements() {
-	form.reset();
-	form.dataset.isEdit = false;
-	// form.dataset.editIndex = null;
-	form[2].value = todaysDate();
-}
-
-function openEditModal(todo, index) {
-	form[0].value = todo.title;
-	form[1].value = todo.priority;
-	form[2].value = todo.dueDate;
-	form[3].value = todo.description;
-	form.dataset.isEdit = true;
-	form.dataset.editIndex = index;
-	// console.log(form);
-	openModal();
-}
-
-function isEditMode() {
-	console.log(`is edit from form: ${form.dataset.isEdit}`);
-	return {
-		isEdit: form.dataset.isEdit === "true",
-		editIndex: form.dataset.editIndex,
-	};
-}
-
-window.onclick = function (event) {
-	if (event.target == modal) {
+	const close = () => {
 		modal.style.display = "none";
-	}
-};
+	};
 
-export {
-	modal,
-	openModal,
-	closeModal,
-	submitButton,
-	cancelButton,
-	getFormElements,
-	clearFormElements,
-	openEditModal,
-	isEditMode,
-};
+	const open = () => {
+		modal.style.display = "block";
+	};
+
+	const openEditMode = (todo, index) => {
+		form[0].value = todo.title;
+		form[1].value = todo.priority;
+		form[2].value = todo.dueDate;
+		form[3].value = todo.description;
+		form.dataset.isEdit = true;
+		form.dataset.editIndex = index;
+		open();
+	};
+
+	const isEditMode = () => {
+		return {
+			isEdit: form.dataset.isEdit === "true",
+			editIndex: form.dataset.editIndex,
+		};
+	};
+
+	const clearForm = () => {
+		form.reset();
+		form.dataset.isEdit = false;
+		form[2].value = todaysDate();
+	};
+
+	const getFormValues = () => {
+		return {
+			title: form[0],
+			priority: form[1],
+			dueDate: form[2],
+			description: form[3],
+		};
+	};
+
+	const onSubmit = (submitMethod) => {
+		submitButton.addEventListener("click", submitMethod);
+	};
+
+	const onCancel = (cancelMethod) => {
+		cancelButton.addEventListener("click", cancelMethod);
+	};
+
+	return {
+		modal,
+		open,
+		close,
+		openEditMode,
+		isEditMode,
+		clearForm,
+		getFormValues,
+		onSubmit,
+		onCancel,
+	};
+}

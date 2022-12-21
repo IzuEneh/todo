@@ -1,15 +1,5 @@
-import drawDisplay, { title, sideBar, todoList } from "./domController";
+import drawDisplay, { title, sideBar, todoList, modal } from "./domController";
 import Todo from "./components/todo/Todo";
-import {
-	openModal,
-	closeModal,
-	submitButton,
-	getFormElements,
-	cancelButton,
-	clearFormElements,
-	openEditModal,
-	isEditMode,
-} from "./components/modal/modal";
 
 const todos = [
 	Todo(
@@ -32,7 +22,7 @@ const todos = [
 drawDisplay();
 todoList.setOnEditTodo((e) => {
 	const index = e.target.dataset.index;
-	openEditModal(todos[index], index);
+	modal.openEditMode(todos[index], index);
 });
 
 todoList.setOnCompleteTodo((e) => {
@@ -50,13 +40,18 @@ todoList.setOnDeleteTodo((e) => {
 });
 
 todoList.setOnAddTodo((e) => {
-	openModal();
+	modal.open();
 });
+
+modal.onSubmit(handleSubmitTodo);
+
+modal.onCancel(handleCancelTodo);
+
 todoList.drawTodos(todos);
 
-function onSubmitTodo(e) {
-	const { isEdit, editIndex } = isEditMode();
-	const { title, priority, dueDate, description } = getFormElements();
+function handleSubmitTodo(e) {
+	const { isEdit, editIndex } = modal.isEditMode();
+	const { title, priority, dueDate, description } = modal.getFormValues();
 	if (title.value == "" || dueDate.value === "") {
 		return;
 	}
@@ -71,14 +66,11 @@ function onSubmitTodo(e) {
 
 	isEdit ? todos.splice(editIndex, 1, todo) : todos.push(todo);
 	todoList.drawTodos(todos);
-	clearFormElements();
-	closeModal();
+	modal.clearForm();
+	modal.close();
 }
 
-function cancelTodo(e) {
-	clearFormElements();
-	closeModal();
+function handleCancelTodo(e) {
+	modal.clearForm();
+	modal.close();
 }
-
-cancelButton.addEventListener("click", cancelTodo);
-submitButton.addEventListener("click", onSubmitTodo);

@@ -1,8 +1,7 @@
 import "./style.css";
-import plus from "./assets/plus-icon.png";
 import trash from "./assets/trash-icon.png";
 import addProject from "./assets/project-icon.png";
-import { modal } from "./components/modal/modal";
+import Modal from "./components/modal/modal";
 import TodoList from "./components/todoList/TodoList";
 
 const createTitle = () => {
@@ -72,6 +71,8 @@ export let { sideBar } = sideBarFactory();
 
 const todoList = TodoList();
 
+const modal = Modal();
+
 export default function drawDisplay() {
 	const body = document.querySelector("body");
 	const content = document.createElement("div");
@@ -91,10 +92,10 @@ export default function drawDisplay() {
 	content.appendChild(sideBar);
 	content.appendChild(main);
 	body.appendChild(content);
-	body.appendChild(modal);
+	body.appendChild(modal.modal);
 }
 
-export { todoList };
+export { todoList, modal };
 
 /**
  * Create factories for todolist and sidebar
