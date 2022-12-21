@@ -5,6 +5,7 @@ import drawDisplay, {
 	drawTodos,
 	setOnEditTodo,
 	setOnCompleteTodo,
+	setOnDeleteTodo,
 } from "./domController";
 import { todoObject } from "./todoFactory";
 import {
@@ -53,6 +54,12 @@ setOnCompleteTodo((e) => {
 	let completedTodo = todos[index];
 	completedTodo.completed = !completedTodo.completed;
 	todos.splice(index, 1, completedTodo);
+	drawTodos(todos);
+});
+
+setOnDeleteTodo((e) => {
+	const index = e.target.dataset.index;
+	todos.splice(index, 1);
 	drawTodos(todos);
 });
 drawTodos(todos);

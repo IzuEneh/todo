@@ -166,7 +166,7 @@ body {
 }
 
 .add-todo {
-    width: 45%;
+    width: 25vw;
     height: 95px;
     background-color: var(--text-light);
     border: 5px solid var(--main-color);

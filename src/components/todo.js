@@ -87,6 +87,10 @@ function setEventListeners(li) {
 	li.addEventListener("completeButtonPressed", (e) => {
 		li.dispatchEvent(new CustomEvent("completeTodo", { bubbles: true }));
 	});
+
+	li.addEventListener("deleteButtonPressed", (e) => {
+		li.dispatchEvent(new CustomEvent("deleteTodo", { bubbles: true }));
+	});
 }
 
 function onEdit(e) {
@@ -102,5 +106,7 @@ function onComplete(e) {
 }
 
 function onDelete(e) {
-	e.target.dispatchEvent(new CustomEvent("deleteTodo", { bubbles: true }));
+	e.target.dispatchEvent(
+		new CustomEvent("deleteButtonPressed", { bubbles: true })
+	);
 }

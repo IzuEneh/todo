@@ -120,6 +120,10 @@ function setOnCompleteTodo(completeMethod) {
 	todoList.addEventListener("completeTodo", completeMethod);
 }
 
+function setOnDeleteTodo(deleteMethod) {
+	todoList.addEventListener("deleteTodo", deleteMethod);
+}
+
 export default function drawDisplay() {
 	const body = document.querySelector("body");
 	const content = document.createElement("div");
@@ -147,7 +151,7 @@ export default function drawDisplay() {
 	body.appendChild(modal);
 }
 
-export { drawTodos, setOnEditTodo, setOnCompleteTodo };
+export { drawTodos, setOnEditTodo, setOnCompleteTodo, setOnDeleteTodo };
 
 /**
  * Create factories for todolist and sidebar
