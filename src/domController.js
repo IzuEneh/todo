@@ -2,7 +2,7 @@ import "./style.css";
 import plus from "./assets/plus-icon.png";
 import trash from "./assets/trash-icon.png";
 import addProject from "./assets/project-icon.png";
-import todoElement from "./components/todo";
+// import todoElement from "./components/todo";
 import { modal } from "./components/modal/modal";
 
 const createTitle = () => {
@@ -96,8 +96,6 @@ export let { sideBar } = sideBarFactory();
 
 let todoList = createTodoList();
 
-let onEditTodo = null;
-
 function drawTodos(todos) {
 	let child = todoList.lastElementChild;
 	while (child) {
@@ -106,7 +104,7 @@ function drawTodos(todos) {
 	}
 
 	todos.forEach((todo, index) => {
-		const element = todoElement(todo, onEditTodo);
+		const element = todo.createElement();
 		element.dataset.index = index;
 		todoList.appendChild(element);
 	});

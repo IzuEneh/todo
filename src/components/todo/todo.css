@@ -30,7 +30,7 @@ details[open] summary {
 }
 
 summary::before {
-    content: url("./../assets/right-arrow.png");
+    content: url("./../../assets/right-arrow.png");
     height: var(--p-size);
     transition: all .15s ease-in-out;
 }

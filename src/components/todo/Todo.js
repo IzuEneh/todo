@@ -1,46 +1,5 @@
 import "./todo.css";
 
-export default function todoElement(todo, onEdit) {
-	const li = document.createElement("li");
-	const details = document.createElement("details");
-	const summary = document.createElement("summary");
-
-	const todoTitle = document.createElement("p");
-	todoTitle.textContent = todo.title;
-	todoTitle.classList.add("todo-title");
-	if (todo.completed) {
-		todoTitle.classList.add("completed");
-	}
-
-	const priority = document.createElement("p");
-	priority.textContent = todo.priority;
-	priority.classList.add("todo-priority");
-	priority.classList.add(`${todo.priority}-priority`);
-
-	const todoDate = document.createElement("p");
-	todoDate.textContent = todo.dueDate;
-	todoDate.classList.add("todo-date");
-
-	const summaryTitle = document.createElement("div");
-	summaryTitle.classList.add("summary-title");
-
-	const todoDescription = createDescriptionSection(
-		todo.description,
-		todo.completed
-	);
-
-	summaryTitle.appendChild(todoTitle);
-	summaryTitle.appendChild(priority);
-	summaryTitle.appendChild(todoDate);
-	summary.appendChild(summaryTitle);
-	details.appendChild(summary);
-	details.appendChild(todoDescription);
-	li.appendChild(details);
-	setEventListeners(li);
-
-	return li;
-}
-
 function createDescriptionSection(description, isCompleted) {
 	const section = document.createElement("div");
 	section.classList.add("description-section");
@@ -109,4 +68,51 @@ function onDelete(e) {
 	e.target.dispatchEvent(
 		new CustomEvent("deleteButtonPressed", { bubbles: true })
 	);
+}
+
+export default function Todo(title, description, dueDate, priority, completed) {
+	title = title.charAt(0).toUpperCase() + title.slice(1);
+
+	function createElement() {
+		const li = document.createElement("li");
+		const details = document.createElement("details");
+		const summary = document.createElement("summary");
+
+		const todoTitle = document.createElement("p");
+		todoTitle.textContent = this.title;
+		todoTitle.classList.add("todo-title");
+		if (this.completed) {
+			todoTitle.classList.add("completed");
+		}
+
+		const displayPriority = document.createElement("p");
+		displayPriority.textContent = this.priority;
+		displayPriority.classList.add("todo-priority");
+		displayPriority.classList.add(`${priority}-priority`);
+
+		const todoDate = document.createElement("p");
+		todoDate.textContent = this.dueDate;
+		todoDate.classList.add("todo-date");
+
+		const summaryTitle = document.createElement("div");
+		summaryTitle.classList.add("summary-title");
+
+		const todoDescription = createDescriptionSection(
+			this.description,
+			this.completed
+		);
+
+		summaryTitle.appendChild(todoTitle);
+		summaryTitle.appendChild(displayPriority);
+		summaryTitle.appendChild(todoDate);
+		summary.appendChild(summaryTitle);
+		details.appendChild(summary);
+		details.appendChild(todoDescription);
+		li.appendChild(details);
+		setEventListeners(li);
+
+		return li;
+	}
+
+	return { title, description, dueDate, priority, completed, createElement };
 }

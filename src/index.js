@@ -7,7 +7,7 @@ import drawDisplay, {
 	setOnCompleteTodo,
 	setOnDeleteTodo,
 } from "./domController";
-import { todoObject } from "./todoFactory";
+import Todo from "./components/todo/Todo";
 import {
 	openModal,
 	closeModal,
@@ -20,27 +20,21 @@ import {
 } from "./components/modal/modal";
 
 const todos = [
-	todoObject(
+	Todo(
 		"test",
 		"test of whats to come",
 		new Date().toDateString(),
 		"Low",
 		false
 	),
-	todoObject(
+	Todo(
 		"test2",
 		"cool stuff i am doing",
 		new Date().toDateString(),
 		"Med",
 		true
 	),
-	todoObject(
-		"test3",
-		"third description",
-		new Date().toDateString(),
-		"High",
-		false
-	),
+	Todo("test3", "third description", new Date().toDateString(), "High", false),
 ];
 
 drawDisplay();
