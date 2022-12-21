@@ -8,6 +8,9 @@ export default function todoElement(todo, onEdit) {
 	const todoTitle = document.createElement("p");
 	todoTitle.textContent = todo.title;
 	todoTitle.classList.add("todo-title");
+	if (todo.completed) {
+		todoTitle.classList.add("completed");
+	}
 
 	const priority = document.createElement("p");
 	priority.textContent = todo.priority;
@@ -21,7 +24,10 @@ export default function todoElement(todo, onEdit) {
 	const summaryTitle = document.createElement("div");
 	summaryTitle.classList.add("summary-title");
 
-	const todoDescription = createDescriptionSection(todo.description);
+	const todoDescription = createDescriptionSection(
+		todo.description,
+		todo.completed
+	);
 
 	summaryTitle.appendChild(todoTitle);
 	summaryTitle.appendChild(priority);
@@ -30,13 +36,12 @@ export default function todoElement(todo, onEdit) {
 	details.appendChild(summary);
 	details.appendChild(todoDescription);
 	li.appendChild(details);
-	// li.addEventListener("editTodo", onEdit);
 	setEventListeners(li);
 
 	return li;
 }
 
-function createDescriptionSection(description) {
+function createDescriptionSection(description, isCompleted) {
 	const section = document.createElement("div");
 	section.classList.add("description-section");
 
@@ -49,6 +54,7 @@ function createDescriptionSection(description) {
 	buttons.classList.add("todo-buttons");
 
 	const completeButton = createButton("Complete");
+	completeButton.textContent = isCompleted ? "Mark Incomplete" : "Complete";
 	completeButton.addEventListener("click", onComplete);
 	buttons.appendChild(completeButton);
 
@@ -75,9 +81,11 @@ function createButton(title) {
 
 function setEventListeners(li) {
 	li.addEventListener("editButtonPressed", (e) => {
-		// console.log("editing");
-		// console.log(e);
 		li.dispatchEvent(new CustomEvent("editTodo", { bubbles: true }));
+	});
+
+	li.addEventListener("completeButtonPressed", (e) => {
+		li.dispatchEvent(new CustomEvent("completeTodo", { bubbles: true }));
 	});
 }
 
@@ -88,7 +96,9 @@ function onEdit(e) {
 }
 
 function onComplete(e) {
-	e.target.dispatchEvent(new CustomEvent("completeTodo", { bubbles: true }));
+	e.target.dispatchEvent(
+		new CustomEvent("completeButtonPressed", { bubbles: true })
+	);
 }
 
 function onDelete(e) {

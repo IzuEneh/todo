@@ -117,7 +117,7 @@ function setOnEditTodo(editMethod) {
 }
 
 function setOnCompleteTodo(completeMethod) {
-	todoList.addEventListener("editTodo", completeMethod);
+	todoList.addEventListener("completeTodo", completeMethod);
 }
 
 export default function drawDisplay() {
@@ -147,7 +147,7 @@ export default function drawDisplay() {
 	body.appendChild(modal);
 }
 
-export { drawTodos, setOnEditTodo };
+export { drawTodos, setOnEditTodo, setOnCompleteTodo };
 
 /**
  * Create factories for todolist and sidebar

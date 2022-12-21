@@ -45,15 +45,6 @@ details[open] summary::before {
     width: 95%;
 }
 
-.todo-checkbox {
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
-    appearance: none;
-    background-color: var(--background);
-    border: 2px solid var(--main-color-shade);
-    cursor: pointer;
-}
 
 .todo-checkbox:checked {
     background-color: var(--main-color-shade);
@@ -61,6 +52,10 @@ details[open] summary::before {
 
 .todo-title {
     margin: 0px auto 0px 20px;
+}
+
+.completed {
+    text-decoration: line-through;
 }
 
 .description-section {

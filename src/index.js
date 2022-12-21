@@ -4,6 +4,7 @@ import drawDisplay, {
 	sideBar,
 	drawTodos,
 	setOnEditTodo,
+	setOnCompleteTodo,
 } from "./domController";
 import { todoObject } from "./todoFactory";
 import {
@@ -45,6 +46,14 @@ drawDisplay();
 setOnEditTodo((e) => {
 	const index = e.target.dataset.index;
 	openEditModal(todos[index], index);
+});
+
+setOnCompleteTodo((e) => {
+	const index = e.target.dataset.index;
+	let completedTodo = todos[index];
+	completedTodo.completed = !completedTodo.completed;
+	todos.splice(index, 1, completedTodo);
+	drawTodos(todos);
 });
 drawTodos(todos);
 function addTodoObject(e) {
