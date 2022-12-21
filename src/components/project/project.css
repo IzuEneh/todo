@@ -1,0 +1,34 @@
+.project {
+    background-color: var(--main-color-tint);
+    height: 75px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+    filter: opacity(.8);
+}
+
+.project:hover {
+    filter: opacity(1);
+    /* opacity: 1; */
+}
+
+.project.selected {
+    filter: opacity(1);
+}
+
+.project p {
+    font-size: var(--p-size);
+    color: var(--main-color-shade);
+}
+
+.project img {
+    height: 30px;
+    width: auto;
+    transition: all .1s ease;
+}
+
+.project img:hover {
+    transform: scale(1.167);
+}

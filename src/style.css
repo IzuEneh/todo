@@ -62,31 +62,6 @@ body {
     gap: 10px;
 }
 
-.projects-Section li {
-    background-color: var(--main-color-tint);
-    height: 75px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px ;
-    box-sizing: border-box;
-}
-
-.projects-Section li p {
-    font-size: var(--p-size);
-    color: var(--main-color-shade);
-}
-
-.projects-Section li img {
-    height: 30px;
-    width: auto;
-    transition: all .1s ease;
-}
-
-.projects-Section li img:hover {
-    height: 35px;
-}
-
 .add-project {
     height: 50px;
     width: clamp(100px, 40%, 250px);

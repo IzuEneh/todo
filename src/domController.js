@@ -3,6 +3,7 @@ import trash from "./assets/trash-icon.png";
 import addProject from "./assets/project-icon.png";
 import Modal from "./components/modal/modal";
 import TodoList from "./components/todoList/TodoList";
+import Project from "./components/project/Project";
 
 const createTitle = () => {
 	const title = document.createElement("h1");
@@ -31,7 +32,9 @@ const sideBarFactory = () => {
 	projectSection.classList.add("projects-Section");
 	const projects = document.createElement("ul");
 	["Inbox", "This week", "This month"].forEach((proj) => {
-		createProject(proj);
+		// createProject(proj);
+		const element = Project(proj).render();
+		projects.appendChild(element);
 	});
 
 	const addButton = document.createElement("div");
@@ -50,18 +53,6 @@ const sideBarFactory = () => {
 
 	sideBar.appendChild(sideBarWrapper);
 
-	function createProject(name) {
-		const li = document.createElement("li");
-
-		const text = document.createElement("p");
-		text.textContent = name;
-
-		const img = document.createElement("img");
-		img.src = trash;
-		li.appendChild(text);
-		li.appendChild(img);
-		projects.appendChild(li);
-	}
 	return { sideBar, addButton };
 };
 
