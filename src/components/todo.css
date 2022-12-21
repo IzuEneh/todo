@@ -70,6 +70,64 @@ details[open] summary::before {
 
 .todo-buttons {
     display: flex;
-    justify-content: center;
-    gap: 15px
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.desc-button {
+    font-size: var(--p-size);
+    width: 100%;
+    padding: 5px 10px;
+    text-align: center;
+    border: none;
+    border-radius: var(--border-radius);
+    font-weight: 700;
+}
+
+.desc-button:hover {
+    filter: brightness(0.95);
+    transform: scale(1.01);
+}
+
+.desc-button:active {
+    transform: scale(0.99);
+}
+
+.complete-button {
+    background-color: var(--sucess);
+    color: var(--text-light);
+}
+
+.edit-button {
+    background-color: var(--text-light);
+    border: 2px solid var(--main-color-tint);
+    color: var(--main-color);
+}
+
+.delete-button {
+    background-color: var(--delete-color);
+}
+
+.todo-priority {
+    margin-right: 20px;
+    width: 100px;
+    background-color: var(--main-color-tint);
+    text-align: center;
+    border-radius: var(--border-radius);
+    padding: 2px 0px;
+    font-weight: 700;
+    color: black;
+}
+
+.Low-priority {
+    background-color: var(--warning);
+}
+
+.Med-priority {
+    background-color: var(--amber);
+}
+
+.High-priority {
+    background-color: var(--delete-color);
+    color: var(--text-light);
 }

@@ -3,6 +3,7 @@ import drawDisplay, {
 	title,
 	sideBar,
 	drawTodos,
+	setOnEditTodo,
 } from "./domController";
 import { todoObject } from "./todoFactory";
 import {
@@ -12,6 +13,8 @@ import {
 	getFormElements,
 	cancelButton,
 	clearFormElements,
+	openEditModal,
+	isEditMode,
 } from "./components/modal/modal";
 
 const todos = [
@@ -19,36 +22,42 @@ const todos = [
 		"test",
 		"test of whats to come",
 		new Date().toDateString(),
-		"low",
+		"Low",
 		false
 	),
 	todoObject(
 		"test2",
 		"cool stuff i am doing",
 		new Date().toDateString(),
-		"med",
+		"Med",
 		true
 	),
 	todoObject(
 		"test3",
 		"third description",
 		new Date().toDateString(),
-		"hi",
+		"High",
 		false
 	),
 ];
 
 drawDisplay();
+setOnEditTodo((e) => {
+	const index = e.target.dataset.index;
+	openEditModal(todos[index], index);
+});
 drawTodos(todos);
 function addTodoObject(e) {
 	openModal();
 }
 
-function createTodo(e) {
+function onSubmitTodo(e) {
+	const { isEdit, editIndex } = isEditMode();
 	const { title, priority, dueDate, description } = getFormElements();
-	if (title.value == "") {
+	if (title.value == "" || dueDate.value === "") {
 		return;
 	}
+
 	const todo = todoObject(
 		title.value,
 		description.value,
@@ -56,7 +65,8 @@ function createTodo(e) {
 		priority.value,
 		false
 	);
-	todos.push(todo);
+
+	isEdit ? todos.splice(editIndex, 1, todo) : todos.push(todo);
 	drawTodos(todos);
 	clearFormElements();
 	closeModal();
@@ -69,4 +79,4 @@ function cancelTodo(e) {
 
 addButton.addEventListener("click", addTodoObject);
 cancelButton.addEventListener("click", cancelTodo);
-submitButton.addEventListener("click", createTodo);
+submitButton.addEventListener("click", onSubmitTodo);

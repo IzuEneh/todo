@@ -13,6 +13,7 @@ const closeModal = () => {
 };
 
 const openModal = () => {
+	console.log(form);
 	modal.style.display = "block";
 };
 
@@ -43,7 +44,7 @@ function createForm() {
 	const priorityDrop = document.createElement("select");
 	Object.values(priorities).forEach((pri) => {
 		const option = document.createElement("option");
-		option.value = pri.toLowerCase();
+		option.value = pri;
 		option.textContent = pri;
 		priorityDrop.appendChild(option);
 	});
@@ -119,7 +120,28 @@ function getFormElements() {
 
 function clearFormElements() {
 	form.reset();
+	form.dataset.isEdit = false;
+	// form.dataset.editIndex = null;
 	form[2].value = todaysDate();
+}
+
+function openEditModal(todo, index) {
+	form[0].value = todo.title;
+	form[1].value = todo.priority;
+	form[2].value = todo.dueDate;
+	form[3].value = todo.description;
+	form.dataset.isEdit = true;
+	form.dataset.editIndex = index;
+	// console.log(form);
+	openModal();
+}
+
+function isEditMode() {
+	console.log(`is edit from form: ${form.dataset.isEdit}`);
+	return {
+		isEdit: form.dataset.isEdit === "true",
+		editIndex: form.dataset.editIndex,
+	};
 }
 
 window.onclick = function (event) {
@@ -127,14 +149,6 @@ window.onclick = function (event) {
 		modal.style.display = "none";
 	}
 };
-
-submitButton.addEventListener("click", (e) => {
-	const { title, priority, dueDate, description } = getFormElements();
-	if (title.value == "") {
-		return;
-	}
-	e.preventDefault();
-});
 
 export {
 	modal,
@@ -144,4 +158,6 @@ export {
 	cancelButton,
 	getFormElements,
 	clearFormElements,
+	openEditModal,
+	isEditMode,
 };

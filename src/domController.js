@@ -96,6 +96,8 @@ export let { sideBar } = sideBarFactory();
 
 let todoList = createTodoList();
 
+let onEditTodo = null;
+
 function drawTodos(todos) {
 	let child = todoList.lastElementChild;
 	while (child) {
@@ -103,15 +105,19 @@ function drawTodos(todos) {
 		child = todoList.lastElementChild;
 	}
 
-	todos.forEach((todo) => {
-		const element = todoElement(
-			todo.title,
-			todo.completed,
-			todo.dueDate,
-			todo.description
-		);
+	todos.forEach((todo, index) => {
+		const element = todoElement(todo, onEditTodo);
+		element.dataset.index = index;
 		todoList.appendChild(element);
 	});
+}
+
+function setOnEditTodo(editMethod) {
+	todoList.addEventListener("editTodo", editMethod);
+}
+
+function setOnCompleteTodo(completeMethod) {
+	todoList.addEventListener("editTodo", completeMethod);
 }
 
 export default function drawDisplay() {
@@ -141,7 +147,7 @@ export default function drawDisplay() {
 	body.appendChild(modal);
 }
 
-export { drawTodos };
+export { drawTodos, setOnEditTodo };
 
 /**
  * Create factories for todolist and sidebar
