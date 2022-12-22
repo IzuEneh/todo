@@ -1,5 +1,7 @@
 import "./modal.css";
+import Formatter from "../../DateFormatter";
 
+const dateFormatter = Formatter();
 const priorities = {
 	low: "Low",
 	med: "Med",
@@ -118,7 +120,7 @@ export default function Modal() {
 	const openEditMode = (todo, index) => {
 		form[0].value = todo.title;
 		form[1].value = todo.priority;
-		form[2].value = todo.dueDate;
+		form[2].value = dateFormatter.toInputValue(todo.dueDate);
 		form[3].value = todo.description;
 		form.dataset.isEdit = true;
 		form.dataset.editIndex = index;

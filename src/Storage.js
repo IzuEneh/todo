@@ -1,13 +1,15 @@
 import Project from "./components/project/Project";
 import Todo from "./components/todo/Todo";
 import { priorities } from "./components/modal/modal";
+import Formatter from "./DateFormatter";
 
+const dateFormatter = Formatter();
 const defaultProject = [
 	Project("inbox", true, [
 		Todo(
 			"welcome",
 			"This is an example todo play around to see how this site works",
-			new Date().toDateString(),
+			dateFormatter.now(),
 			priorities.low,
 			false
 		),

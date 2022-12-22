@@ -7,8 +7,11 @@ import drawDisplay, {
 import Todo from "./components/todo/Todo";
 import Project from "./components/project/Project";
 import Storage from "./Storage";
+import Formatter from "./DateFormatter";
 
 const store = Storage();
+
+const dateFormatter = Formatter();
 
 const projects = store.getProjects();
 
@@ -106,7 +109,7 @@ function handleSubmitTodo(e) {
 	const todo = Todo(
 		title.value,
 		description.value,
-		dueDate.value,
+		dateFormatter.fromInputValue(dueDate.value),
 		priority.value,
 		false
 	);
