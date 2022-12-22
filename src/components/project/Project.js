@@ -11,7 +11,7 @@ function createDeleteIcon() {
 	return img;
 }
 
-export default function Project(title, todos = []) {
+export default function Project(title, isSelected = false, todos = []) {
 	title = title.charAt(0).toUpperCase() + title.slice(1);
 	const img = createDeleteIcon();
 
@@ -23,7 +23,12 @@ export default function Project(title, todos = []) {
 		text.textContent = title;
 
 		li.appendChild(text);
-		li.appendChild(img);
+		if (title.toLowerCase() !== "inbox") {
+			li.appendChild(img);
+		}
+		if (this.isSelected) {
+			li.classList.add("selected");
+		}
 		li.addEventListener("click", handleClick);
 		return li;
 	}
@@ -34,7 +39,6 @@ export default function Project(title, todos = []) {
 			return;
 		}
 		dispatchEvent(e, "selectProject");
-		console.log("selected");
 	}
 
 	function addTodo(todo) {
@@ -49,9 +53,13 @@ export default function Project(title, todos = []) {
 		todos.splice(index, 1);
 	}
 
-	function getTodos() {
-		return todos;
-	}
-
-	return { title, render, addTodo, replaceTodo, deleteTodo, getTodos };
+	return {
+		title,
+		isSelected,
+		todos,
+		render,
+		addTodo,
+		replaceTodo,
+		deleteTodo,
+	};
 }

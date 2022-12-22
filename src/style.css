@@ -47,48 +47,6 @@ body {
     box-sizing: border-box;
 }
 
-.projects-Section {
-    display: flex;
-    flex-direction: column;
-    gap: 20px
-}
-
-.projects-Section > ul {
-    padding: 0px;
-    margin: 0px;
-    padding-top: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.add-project {
-    height: 50px;
-    width: clamp(100px, 40%, 250px);
-    background-color: var(--main-color-tint);
-    align-self: flex-end;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0px 10px;
-    box-sizing: border-box;
-    transition: all .2s ease-in-out;
-}
-
-.add-project:hover {
-    background-color: var(--background);
-    transform: scale(1.05);
-}
-
-.add-project img {
-    height: 35px;
-}
-
-.add-project p {
-    font-size: var(--p-size);
-    color: var(--main-color-shade);
-}
-
 .top-section {
     display: flex;
     flex-direction: column;

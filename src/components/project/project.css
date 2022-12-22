@@ -6,12 +6,11 @@
     align-items: center;
     padding: 10px;
     box-sizing: border-box;
-    filter: opacity(.8);
+    filter: opacity(.65);
 }
 
 .project:hover {
     filter: opacity(1);
-    /* opacity: 1; */
 }
 
 .project.selected {

@@ -1,18 +1,30 @@
 import "./style.css";
-import trash from "./assets/trash-icon.png";
-import addProject from "./assets/project-icon.png";
 import Modal from "./components/modal/modal";
 import TodoList from "./components/todoList/TodoList";
-import Project from "./components/project/Project";
+import ProjectList from "./components/projectList/ProjectList";
 
-const createTitle = () => {
+const todoList = TodoList();
+
+const modal = Modal();
+
+const projectList = ProjectList();
+
+const title = createTitle();
+
+const sideBar = sideBarFactory();
+
+function setTitle(newTitle) {
+	title.textContent = newTitle;
+}
+
+function createTitle() {
 	const title = document.createElement("h1");
 	title.classList.add("title");
 	title.textContent = "Inbox";
 	return title;
-};
+}
 
-const sideBarFactory = () => {
+function sideBarFactory() {
 	const sideBar = document.createElement("div");
 	sideBar.classList.add("side-bar");
 
@@ -28,41 +40,12 @@ const sideBarFactory = () => {
 	titleSection.appendChild(title);
 	sideBarWrapper.appendChild(titleSection);
 
-	const projectSection = document.createElement("div");
-	projectSection.classList.add("projects-Section");
-	const projects = document.createElement("ul");
-	["Inbox", "This week", "This month"].forEach((proj) => {
-		// createProject(proj);
-		const element = Project(proj).render();
-		projects.appendChild(element);
-	});
-
-	const addButton = document.createElement("div");
-	addButton.classList.add("add-project");
-	const addProjectImg = document.createElement("img");
-	addProjectImg.src = addProject;
-	addButton.appendChild(addProjectImg);
-
-	const addText = document.createElement("p");
-	addText.textContent = "Add Project";
-	addButton.appendChild(addText);
-
-	projectSection.appendChild(projects);
-	projectSection.appendChild(addButton);
-	sideBarWrapper.appendChild(projectSection);
+	sideBarWrapper.appendChild(projectList.projectSection);
 
 	sideBar.appendChild(sideBarWrapper);
 
-	return { sideBar, addButton };
-};
-
-export let title = createTitle();
-
-export let { sideBar } = sideBarFactory();
-
-const todoList = TodoList();
-
-const modal = Modal();
+	return sideBar;
+}
 
 export default function drawDisplay() {
 	const body = document.querySelector("body");
@@ -86,9 +69,4 @@ export default function drawDisplay() {
 	body.appendChild(modal.modal);
 }
 
-export { todoList, modal };
-
-/**
- * Create factories for todolist and sidebar
- * expose methods to add todo / project
- */
+export { todoList, modal, projectList, setTitle };
