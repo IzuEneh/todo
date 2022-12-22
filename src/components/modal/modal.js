@@ -167,3 +167,5 @@ export default function Modal() {
 		onCancel,
 	};
 }
+
+export { priorities };

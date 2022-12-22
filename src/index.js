@@ -6,40 +6,17 @@ import drawDisplay, {
 } from "./domController";
 import Todo from "./components/todo/Todo";
 import Project from "./components/project/Project";
+import Storage from "./Storage";
 
-const projects = [
-	Project("inbox", false, [
-		Todo(
-			"test",
-			"test of whats to come",
-			new Date().toDateString(),
-			"Low",
-			false
-		),
-		Todo(
-			"test2",
-			"cool stuff i am doing",
-			new Date().toDateString(),
-			"Med",
-			true
-		),
-		Todo(
-			"test3",
-			"third description",
-			new Date().toDateString(),
-			"High",
-			false
-		),
-	]),
-	Project("this week"),
-	Project("this month"),
-];
+const store = Storage();
 
-let currentProject = null;
+const projects = store.getProjects();
+
+let currentProject = projects.find((proj) => proj.isSelected);
 
 drawDisplay();
 
-setSelected(projects[0]);
+setSelected(currentProject);
 
 projectList.setOnSelectProject(handleSelectProject);
 
@@ -69,6 +46,7 @@ function setSelected(project) {
 	projectList.renderProjects(projects);
 	todoList.drawTodos(currentProject.todos);
 	setTitle(currentProject.title);
+	store.save(projects);
 }
 
 function handleSelectProject(e) {
@@ -92,6 +70,7 @@ function handleDeleteProject(e) {
 	}
 	projects.splice(index, 1);
 	projectList.renderProjects(projects);
+	store.save(projects);
 }
 
 function handleEditTodo(e) {
@@ -148,4 +127,5 @@ function handleCancelTodo(e) {
 
 function reloadTodos() {
 	todoList.drawTodos(currentProject.todos);
+	store.save(projects);
 }

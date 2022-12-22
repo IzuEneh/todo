@@ -53,6 +53,11 @@ export default function Project(title, isSelected = false, todos = []) {
 		todos.splice(index, 1);
 	}
 
+	function toJson() {
+		const jsonTodos = todos.map((todo) => todo.toJson());
+		return { title, isSelected: this.isSelected, todos: jsonTodos };
+	}
+
 	return {
 		title,
 		isSelected,
@@ -61,5 +66,6 @@ export default function Project(title, isSelected = false, todos = []) {
 		addTodo,
 		replaceTodo,
 		deleteTodo,
+		toJson,
 	};
 }

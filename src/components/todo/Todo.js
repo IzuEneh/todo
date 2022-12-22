@@ -114,5 +114,17 @@ export default function Todo(title, description, dueDate, priority, completed) {
 		return li;
 	}
 
-	return { title, description, dueDate, priority, completed, createElement };
+	function toJson() {
+		return { title, description, dueDate, priority, completed: this.completed };
+	}
+
+	return {
+		title,
+		description,
+		dueDate,
+		priority,
+		completed,
+		createElement,
+		toJson,
+	};
 }
